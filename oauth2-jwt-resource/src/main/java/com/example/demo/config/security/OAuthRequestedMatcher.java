@@ -18,7 +18,7 @@ public class OAuthRequestedMatcher implements RequestMatcher {
 
     @Override
     public boolean matches(HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        return (auth != null) && auth.startsWith("Bearer") || request.getParameter("access_token") != null;
+        String access_token = request.getHeader("access_token");
+        return access_token != null && !access_token.isEmpty();
     }
 }
