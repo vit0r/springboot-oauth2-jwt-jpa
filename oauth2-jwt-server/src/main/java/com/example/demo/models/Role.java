@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Role implements Serializable {
     private Integer id;
     @Column(nullable = false, length = 50)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId",fetch = FetchType.EAGER)
     private List<UserRole> userRoleList;
 
     public Role() {

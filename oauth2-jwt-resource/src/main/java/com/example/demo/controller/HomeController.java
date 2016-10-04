@@ -5,6 +5,7 @@
  */
 package com.example.demo.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,12 +21,14 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET, value = "home", produces = "application/json")
     @ResponseBody
+    @PreAuthorize(value="#oauth2.hasAuthority('COMUN')")
     public String home() {
         return "Hello";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "oauth2callback", produces = "application/json")
     @ResponseBody
+    @PreAuthorize(value="#oauth2.hasAuthority('ADMIN')")
     public String oauth2CallBack() {
         return "CallBack";
     }

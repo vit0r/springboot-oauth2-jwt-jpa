@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class User implements Serializable {
     private String password;
     @Column(name = "active", nullable = false)
     private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
     private List<UserRole> userRoleList;
 
     public User() {
