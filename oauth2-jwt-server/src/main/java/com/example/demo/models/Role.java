@@ -30,7 +30,7 @@ public class Role implements Serializable {
     private Integer id;
     @Column(nullable = false, length = 50)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
     private List<UserRole> userRoleList;
 
     public Role() {

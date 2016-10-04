@@ -22,7 +22,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
      OAuth2AccessToken accessToken, 
      OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
-        additionalInfo.put("organization", authentication.getName() + "XPT4");
+        additionalInfo.put("organization", authentication.getAuthorities() + "XPT4");
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }
