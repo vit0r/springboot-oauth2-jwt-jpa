@@ -5,6 +5,7 @@
  */
 package com.example.demo.controller;
 
+import java.util.UUID;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,20 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @author vnaraujo
  */
 @RestController
-@RequestMapping("/api/v1/resource/")
+@RequestMapping("/api/v1/home")
 public class HomeController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "home", produces = "application/json")
+    @PreAuthorize("hasAuthority('ADMIN')") //Your user contains ADMIN authority
+    @RequestMapping(method = RequestMethod.GET, value = "get", produces = "application/json")
     @ResponseBody
-    @PreAuthorize(value="#oauth2.hasAuthority('COMUN')")
-    public String home() {
-        return "Hello";
+    public String get() {
+        return String.format("%s you as ADMIN", UUID.randomUUID().toString());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "oauth2callback", produces = "application/json")
+    @PreAuthorize("hasAuthority('COMUN')") // Access to COMUN authority when user contains 
+    @RequestMapping(method = RequestMethod.POST, value = "post", produces = "application/json")
     @ResponseBody
-    @PreAuthorize(value="#oauth2.hasAuthority('ADMIN')")
-    public String oauth2CallBack() {
-        return "CallBack";
+    public String post() {
+        return String.format("%s posted ", UUID.randomUUID().toString());
     }
 }

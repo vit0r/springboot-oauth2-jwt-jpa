@@ -33,7 +33,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());

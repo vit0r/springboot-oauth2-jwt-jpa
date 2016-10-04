@@ -11,14 +11,16 @@ try:
         auth=HTTPBasicAuth('manager', 'xpto')
     )
     if auth.status_code == 200:
-        host = 'http://localhost:9095'
+        json_auth = json.loads(auth.text)
+        type = json_auth['token_type']
+        access_token = json_auth['access_token']
+        host = 'http://localhost:9095/'
         header = {
-            'Host': host,
+            #'Host': host,
             'Content-Type': 'application/json',
-            'token': auth.text,
-            'Cache-Control': 'no-cache'
+            'Authorization': '{} {}'.format(type, access_token)
         }
-        result = requests.get(url='{}/api/v1/resource/home'.format(host), headers=header)
-        print(result)
+        result = requests.get(url='{}api/v1/home/get'.format(host), headers=header)
+        print(result.content)
 except ValueError as ex:
     print(ex)
