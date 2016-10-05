@@ -1,4 +1,4 @@
-# springboot-oauth2-jwt-jpa
+# springboot-oauth2-jwt-jpa without login-screen
 
 App example implements oauth2-server and resource api to consume this server.
 Token type Bearer
