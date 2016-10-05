@@ -1,5 +1,5 @@
 # springboot-oauth2-jwt-jpa
-# Using JWT with Spring Security OAuth | Baeldung
+# Using JWT with Spring Security OAuth
 
 # App example implements oauth2-server and resource api to consume this server.
 # Token type Bearer
