@@ -5,6 +5,7 @@
  */
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,17 +22,22 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  *
- * @author vnaraujo 
- * validate token => https://jwt.io/
+ * @author vnaraujo validate token => https://jwt.io/
  */
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    @Value("${config.oauth2.resourceId}")
+    private String resourceId;
+    
+    @Value("${config.oauth2.signingKey}")
+    private String signingKey;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer config) {
-        config.tokenServices(tokenServices()).resourceId("manager-employees");
+        config.tokenServices(tokenServices()).resourceId(resourceId);
     }
 
     @Bean
@@ -42,7 +48,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
+        converter.setSigningKey(signingKey);
         return converter;
     }
 
@@ -56,7 +62,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        
+
         http
                 .csrf().disable()
                 .authorizeRequests()

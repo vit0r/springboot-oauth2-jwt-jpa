@@ -5,8 +5,10 @@
  */
 package com.example.demo.config;
 
+import com.example.demo.config.jwt.CustomTokenEnhancer;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -33,7 +35,31 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    
+
+    @Value("${config.oauth2.signingKey}")
+    private String signingKey;
+
+    @Value("${config.oauth2.resourceId}")
+    private String resourceId;
+
+    @Value("${config.oauth2.clientId}")
+    private String clientId;
+
+    @Value("${config.oauth2.clientSecret}")
+    private String clientSecret;
+
+    @Value("${config.oauth2.scopes}")
+    private String scopes;
+
+    @Value("${config.oauth2.accessTokenValiditySeconds}")
+    private Integer accessTokenValiditySeconds;
+
+    @Value("${config.oauth2.authorizedGrantTypes}")
+    private String authorizedGrantTypes;
+
+    @Value("${config.oauth2.redirectUris}")
+    private String redirectUris;
+
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
@@ -42,7 +68,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
+        converter.setSigningKey(signingKey);
         return converter;
     }
 
@@ -74,13 +100,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("manager")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .scopes("openid")
-                .resourceIds("manager-employees")
-                .accessTokenValiditySeconds(3600)
-                .secret("xpto")
-                .redirectUris("http://localhost:9095/api/v1/resource/oauth2callback");
+                .withClient(clientId)
+                .secret(clientSecret)
+                .authorizedGrantTypes(authorizedGrantTypes.split(","))
+                .scopes(scopes)
+                .resourceIds(resourceId)
+                .accessTokenValiditySeconds(accessTokenValiditySeconds)
+                .redirectUris(redirectUris);
     }
 
     @Override
